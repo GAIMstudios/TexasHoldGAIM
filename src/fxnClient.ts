@@ -26,74 +26,14 @@ export class FxnClient {
     }
 
     public async initializePlayer() {
-        // Find our gamemaster
-        const hostDetails = await this.getHostParams();
-        assert(hostDetails, `Error: Failed to find GAIM host with key ${this.hostPublicKey.toString()}`);
-
-        console.log("Found gamemaster: " + hostDetails.name);
-
-        // Subscribe to the host or renew our subscription
+        // Make sure we are subscribed to the GAIM host
         const subscriptions = await this.getSubscriptions();
         const subscribed = subscriptions.find((subscription) => {
             return subscription.dataProvider.toString() == this.hostPublicKey.toString();
         });
 
-        if (!subscribed) {
-            console.log("Subscribing to host.");
-            await this.subscribeToHost();
-        } else {
-            console.log("Already subscribed to host.");
-        }
-    }
-
-    public async getHostParams(): Promise<AgentParams | undefined> {
-        try {
-            return await this.solanaAdapter.getAgentDetails(this.hostPublicKey);
-        } catch (error: any) {
-            console.log("Failed to find host", this.hostPublicKey.toString(), error);
-        }
-    }
-    
-    public async subscribeToHost(): Promise<TransactionSignature | undefined> {
-        const hostParams = await this.getHostParams();
-        assert(hostParams);
-
-        if (hostParams.restrictSubscriptions) {
-            // Request a subscription
-            const subscriptionSig =  await this.solanaAdapter.requestSubscription({dataProvider: this.hostPublicKey});
-            console.log("Requested subscription", subscriptionSig);
-            return subscriptionSig;
-        } else {
-            // Create a subscription
-            assert(process.env.GAIM_PLAYER_URL, "GAIM_PLAYER_URL not set in .env");
-            
-            const [subSig, _] = await this.solanaAdapter.createSubscription({
-                dataProvider: this.hostPublicKey,
-                recipient: process.env.GAIM_PLAYER_URL,
-                durationInDays: 1
-            });
-
-            console.log("Created subscription", subSig);
-            return subSig;
-        }
-    }
-
-    public async unsubscribeFromHost(): Promise<TransactionSignature[]> {
-        const unsubSig = await this.solanaAdapter.cancelSubscription({
-            dataProvider: this.hostPublicKey,
-            qualityScore: 100
-        });
-
-        console.log("Unsubscribed from host.", unsubSig);
-        return unsubSig;
-    }
-
-    public async getHostSubscribers(): Promise<SubscriberDetails[]> {
-        return await this.solanaAdapter.getSubscriptionsForProvider(this.hostPublicKey)
-            .catch((error) => {
-                console.error("Error getting host subscribers:", error);
-                return [];
-            });
+        assert(subscribed, `You are not subscribed to the GAIM host. Subscribe to the provider with public key ${this.hostPublicKey} at https://fxn.world/superswarm`);
+        console.log(`Player initialized. Subscribed to GAIM host with public key ${subscribed.dataProvider}.`);
     }
 
     public async getSubscriptions(): Promise<SubscriptionDetails[]> {

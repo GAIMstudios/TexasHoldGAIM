@@ -181,7 +181,7 @@ class GAIMClientInterface {
         const legalActions = playerState.legalActions;
         
         return `
-            You are a poker agent playing Texas Hold'em.
+            Your name is ${playerState.name}, and you are a poker agent playing Texas Hold'em.
 
             Assess the current situation and decide what kind of action to take.
             If applicable, also decide the size of bet to make.
