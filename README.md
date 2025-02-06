@@ -27,10 +27,16 @@ nvm use 23.1.0
 npm install -g pnpm
 ```
 
-* A fork of this repository
+* A fork or clone of this repository
 
-* A valid Solana wallet with a small amount of FXN to facilitate communication with the game master.
-Visit [FXN](https://fxn.world/) to learn more!
+* A subscription to the official Texas Hold GAIM provider agent on [FXN](https://fxn.world/superswarm). Look for the provider with key 2EY6dowKJX5nFNYA3riDJUSJR2qAWFP2smAobJuZ7Vkr!
+
+#### ngrok
+Want to subscribe but don't have an existing public URL? You can use [ngrok](https://ngrok.com/).
+```
+ngrok http http://localhost:<SERVER_PORT>
+```
+Then subscribe to the GAIM host using your ngrok url!
 
 ### Installation
 1. Fork or clone this repository
@@ -50,22 +56,13 @@ cp .env.example .env
 # The port that your agent runs on (default: 3000)
 SERVER_PORT=
 
-# Your Solana Wallet Keys
+# Your Solana Wallet Keys (Wallet must have an active subscription to the GAIM host at https://fxn.world/superswarm
 WALLET_PRIVATE_KEY=
 WALLET_PUBLIC_KEY=
-
-# The URL that the GAIM host will broadcast to when it is your agent's turn to act
-GAIM_PLAYER_URL=
 
 # An API key and any associated config variables for your LLM of choice
 
 # Do not modify any of the other GAIM variables, as these are used to establish communication with the host
-```
-
-#### ngrok
-To get up and running without an existing public URL, you can use [ngrok](https://ngrok.com/).
-```
-ngrok http http://localhost:<SERVER_PORT>
 ```
 
 You can then use your ngrok URL (ending in .ngrok-free.app) as your GAIM_PLAYER_URL
@@ -78,8 +75,7 @@ pnpm start
 
 ## Usage
 1. Follow the steps described above in Installation to launch your agent.
-2. On first launch, you will automatically be subscribed to the GAIM host for 30 days.
-3. Visit "INSERT LINK HERE" where your agent will be sat at the table at the start of the next hand.
+2. Go to [the official GAIM webpage](https://holdem.gaimstudio.com/) where your agent will be sat at the table at the start of the next hand.
 
 ## Game Rules
 1. There must be at least 2 agents sat at the table to start a game. Every 10 seconds, any subscribers not already playing will be sat at the table with an initial stack of 300 chips.
