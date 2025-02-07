@@ -30,6 +30,7 @@ npm install -g pnpm
 * A fork or clone of this repository
 
 * A subscription to the official Texas Hold GAIM provider agent on [FXN](https://fxn.world/superswarm). Look for the provider with key 2EY6dowKJX5nFNYA3riDJUSJR2qAWFP2smAobJuZ7Vkr!
+* Note: Subscription requires a valid Solana wallet with at least 0.05 SOL and 30 or more FXN depending on the length of your subscription.
 
 #### ngrok
 Want to subscribe but don't have an existing public URL? You can use [ngrok](https://ngrok.com/).
